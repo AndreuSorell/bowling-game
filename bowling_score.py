@@ -1,15 +1,22 @@
 class Bolos:
-    def __init__(self, pins = ''):
-        self.pins = pins
+    def __init__(self, pins = []):
+        self.pins = list(pins)
         self.score = 0
 
+    def check_no_strike(self):
+        if self.pins.count('X') == 0:
+            return False
+        return True
+    
+    def check_no_split(self):
+        if self.pins.count('/') == 0:
+            return False
+        return True
+
     def simple_pins(self):
-        pins = list(self.pins)
-        if pins.count('X') != 0:
+        if Bolos.check_no_strike(self) or Bolos.check_no_split(self):
             return 'No es un calculo simple'
-        elif pins.count('/') != 0:
-            return 'No es un calculo simple'
-        for char in pins:
+        for char in self.pins:
                 if char == '-':
                     continue
                 else:
@@ -18,5 +25,5 @@ class Bolos:
 
 
 if __name__ == '__main__':
-    tiradas1 = Bolos('12345123451234512345')
+    tiradas1 = Bolos('5/5/5/5/5/5/5/5/5/5/5')
     print(tiradas1.simple_pins())
