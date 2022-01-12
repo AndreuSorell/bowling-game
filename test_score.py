@@ -19,7 +19,8 @@ def test_simple_pins():
     assert 'No es un calculo simple' == no_simple_score2.simple_pins()
 
 score_spares1 = Bolos('5/5/5/5/5/5/5/5/5/5/5')
+score_spares2 = Bolos('9-3/613/815/-/8-7/8/8')
 
 def test_pins_with_spares():
-    assert 150 == score_spares1.pins_with_spares()
-
+    assert 150 == score_spares1.score_bolos()
+    assert 131 == score_spares2.score_bolos()
