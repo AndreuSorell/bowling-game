@@ -1,23 +1,16 @@
-class Bolos:
+class Bowling:
     def __init__(self, pins = []):
         self.pins = list(pins)
         self.score = 0
         self.previous_pin = 0
         self.next_pin = 1
-        self.row = 20
+        self.last_frame = 20
 
-    def check_there_strike(self):
-        if self.pins.count('X') == 0:
-            return False
-        return True
-    
-    def check_there_spare(self):
-        if self.pins.count('/') == 0:
-            return False
-        return True
-
-    def spare(self): ##
-        self.score += ((10 - int(self.pins[self.previous_pin])) + int(self.pins[self.next_pin]))
+    def spare(self):
+        if self.pins[self.next_pin] == 'X':
+            self.score += ((10 - int(self.pins[self.previous_pin])) + 10)
+        else:
+            self.score += ((10 - int(self.pins[self.previous_pin])) + int(self.pins[self.next_pin]))
 
     def strike(self):
         if self.pins[self.next_pin] == 'X':
@@ -26,7 +19,10 @@ class Bolos:
             else:
                 self.score += (20 + int(self.pins[self.next_pin+1]))
         else:
-            self.score += (10 + int(self.pins[self.next_pin]))
+            if self.pins[self.next_pin+1] == '/':
+                self.score += 20
+            else:
+                self.score += (10 + int(self.pins[self.next_pin]) + int(self.pins[self.next_pin+1]))
     
     def nulo(self):
         i = 0
@@ -37,46 +33,21 @@ class Bolos:
             else:
                 i += 1
 
-    def simple_pins(self):
-        Bolos.nulo(self)
-        if Bolos.check_there_strike(self) or Bolos.check_there_spare(self):
-            return 'No es un calculo simple'
-        for char in self.pins:
-            self.score += int(char)
-        return self.score
-
-    def pins_with_spares(self):
-        Bolos.nulo(self)
-        if Bolos.check_there_strike(self):
-            return 'Hay uno o mas strikes en esta jugada'
+    def punctuation(self):
+        Bowling.nulo(self)
         i = 0
-        for char in self.pins:
-            if char == '/':
-                self.score = (self.score + 10 + int(self.pins[i + 1]))
-                i += 1
-            else:
-                """ if self.pins[i + 1] == '/':
-                    i += 1
-                    continue
-                self.score += int(char) """
-                i += 1
-        return self.score
-
-    def score_bolos(self):
-        Bolos.nulo(self)
-        i = 0
-        while i < self.row:
+        while i < self.last_frame:
             if self.pins[i] == '/':
-                Bolos.spare(self)
+                Bowling.spare(self)
                 i += 1
                 self.previous_pin = i-1
                 self.next_pin = i+1
             elif self.pins[i] == 'X':
-                Bolos.strike(self)
+                Bowling.strike(self)
                 i += 1
                 self.previous_pin = i-1
                 self.next_pin = i+1
-                self.row -= 1
+                self.last_frame -= 1
             else:
                 self.score += int(self.pins[i])
                 i += 1
@@ -87,5 +58,5 @@ class Bolos:
 
 
 if __name__ == '__main__':
-    tiradas1 = Bolos('8/549-XX5/53639/9/X')
-    print(tiradas1.score_bolos())
+    tiradas1 = Bowling('8/X9-XX5/53639/9/-')
+    print(tiradas1.punctuation())
