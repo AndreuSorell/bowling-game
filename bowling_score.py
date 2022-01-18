@@ -1,3 +1,6 @@
+from traceback import print_stack
+
+
 class Bowling:
     def __init__(self, pins = []):
         self.pins = list(pins)
@@ -7,34 +10,30 @@ class Bowling:
         self.last_frame = 20
 
     def spare(self):
+        TEN = 10
         if self.pins[self.next_pin] == 'X':
-            self.score += ((10 - int(self.pins[self.previous_pin])) + 10)
+            self.score += ((TEN - int(self.pins[self.previous_pin])) + TEN)
         else:
-            self.score += ((10 - int(self.pins[self.previous_pin])) + int(self.pins[self.next_pin]))
+            self.score += ((TEN - int(self.pins[self.previous_pin])) + int(self.pins[self.next_pin]))
 
     def strike(self):
+        ONE_PIN = 1
         if self.pins[self.next_pin] == 'X':
             if self.pins[self.next_pin+1] == 'X':
                 self.score += 30
             else:
-                self.score += (20 + int(self.pins[self.next_pin+1]))
+                self.score += (20 + int(self.pins[self.next_pin + ONE_PIN]))
         else:
             if self.pins[self.next_pin+1] == '/':
                 self.score += 20
             else:
-                self.score += (10 + int(self.pins[self.next_pin]) + int(self.pins[self.next_pin+1]))
-    
-    def nulo(self):
-        i = 0
-        for char in self.pins:
-            if char == '-':
-                self.pins[i] = '0'
-                i += 1
-            else:
-                i += 1
+                self.score += (10 + int(self.pins[self.next_pin]) + int(self.pins[self.next_pin+ ONE_PIN]))
+        
+    def null_to_zero(self):
+        self.pins = list(map(lambda pin: '0' if pin == '-' else pin, self.pins))
 
     def punctuation(self):
-        Bowling.nulo(self)
+        Bowling.null_to_zero(self)
         i = 0
         while i < self.last_frame:
             if self.pins[i] == '/':
