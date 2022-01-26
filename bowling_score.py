@@ -7,7 +7,7 @@ class Bowling:
         self.score = 0
         self.previous_pin = 0
         self.next_pin = 1
-        self.last_frame = 20
+        self.last_row = 20
 
     def spare(self):
         TEN = 10
@@ -35,7 +35,7 @@ class Bowling:
     def punctuation(self):
         Bowling.null_to_zero(self)
         i = 0
-        while i < self.last_frame:
+        while i < self.last_row:
             if self.pins[i] == '/':
                 Bowling.spare(self)
                 i += 1
@@ -46,7 +46,7 @@ class Bowling:
                 i += 1
                 self.previous_pin = i-1
                 self.next_pin = i+1
-                self.last_frame -= 1
+                self.last_row -= 1
             else:
                 self.score += int(self.pins[i])
                 i += 1
